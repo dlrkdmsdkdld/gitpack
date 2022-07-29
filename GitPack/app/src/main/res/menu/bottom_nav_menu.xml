@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:title="홈"
+        android:icon="@drawable/ic_homeimage"
+        />
+    <item
+        android:id="@+id/roadMapFragment"
+        android:title="로드맵"
+        android:icon="@drawable/ic_roadmap"
+        />
+    <item
+        android:id="@+id/userFragment"
+        android:title="유저정보"
+        android:icon="@drawable/ic_userimage"
+        />
+</menu>
