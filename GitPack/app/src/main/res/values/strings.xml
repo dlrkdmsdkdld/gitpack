@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">GitPack</string>
+    <string name="last_year">Last Year</string>
+    <string name="next_year">Next Year</string>
+    <string name="last_month">Last Month</string>
+    <string name="next_month">Next Month</string>
+    <string name="today">Today</string>
+    <string name="title">%d year %d month</string>
 </resources>

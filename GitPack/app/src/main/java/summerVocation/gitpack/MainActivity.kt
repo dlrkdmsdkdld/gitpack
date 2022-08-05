@@ -1,11 +1,8 @@
 package summerVocation.gitpack
 
-import android.annotation.SuppressLint
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import summerVocation.gitpack.databinding.ActivityMainBinding
@@ -43,8 +40,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-////// sqlite 테이블 없애는 함수
-//        binding.dropSqliteBtn.setOnClickListener {
+//// sqlite 테이블 없애는 함수
+//        mbinding.dr.setOnClickListener {
 //            val sqlDrop : String = "DROP TABLE if exists tb_login"
 //            val db: SQLiteDatabase = SQLiteDBHelper(this).writableDatabase
 //            db.execSQL(sqlDrop)
