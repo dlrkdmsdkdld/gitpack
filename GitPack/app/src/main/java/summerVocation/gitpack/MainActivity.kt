@@ -8,7 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import summerVocation.gitpack.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
+    lateinit var userI : String
     private lateinit var mbinding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(mbinding.root)
 
         var userId = intent.getStringExtra("loginId")
-        println(userId)
         /// 로그인한 아이디 확인 자동로그인시 if 문 사용 -> 반대 else문
         if (userId == null){
             val db: SQLiteDatabase = SQLiteDBHelper(this).readableDatabase
@@ -30,6 +29,12 @@ class MainActivity : AppCompatActivity() {
         }else{
            //binding.mainText.setText(userId)
         }
+        userI=userId!!
+        println(userId)
+
+
+
+
         //네비게이션들을 담는 호스트
         val navHostFragment=supportFragmentManager.findFragmentById(R.id.myNavHost) as NavHostFragment
 
@@ -50,4 +55,16 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    fun getuserId() : String{
+
+        return userI
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("파괴됨")
+    }
+
 }
+
+

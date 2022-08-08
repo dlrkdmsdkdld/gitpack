@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.haibin.calendarview.Calendar
+import summerVocation.gitpack.MainActivity
 import summerVocation.gitpack.databinding.FragmentHomeBinding
 
 
@@ -18,7 +19,11 @@ class HomeFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+//        val userId = arguments?.getInt("user_Id")
         val binding = FragmentHomeBinding.inflate(inflater,container,false)
+        val userId=(activity as MainActivity).getuserId() //메인액티비티에서 유저 아이디 가져오기
+        binding.calendarUserIdText.setText(userId.toString())
+
         binding.tvYear.setText(binding.cvCalendar.getCurYear().toString())
         binding.tvLunar.setText("  "+binding.cvCalendar.getCurMonth().toString())
 
@@ -59,16 +64,22 @@ class HomeFragment : Fragment(){
     {
 
         val mapdata: MutableMap<String,Calendar> = mutableMapOf()
-
-
+        //1개 커밋 #AAEBAA
+        //2~3개 커밋 #46BD7B
+        //그이상 #329632
         mapdata.put(
-            getSchemeCalendar(year, month, 3, Color.BLUE, "3").toString(),
-            getSchemeCalendar(year, month, 3, Color.BLUE, "3")
+            getSchemeCalendar(year, month, 3, Color.parseColor("#AAEBAA"), "3").toString(),
+            getSchemeCalendar(year, month, 3, Color.parseColor("#AAEBAA"), "3")
 
         )
         mapdata.put(
-                getSchemeCalendar(year, month, 6, Color.GREEN, "6").toString(),
-            getSchemeCalendar(year, month, 6, Color.GREEN, "6")
+                getSchemeCalendar(year, month, 6,Color.parseColor("#46BD7B"), "6").toString(),
+            getSchemeCalendar(year, month, 6, Color.parseColor("#46BD7B"), "6")
+        )
+        mapdata.put(
+            getSchemeCalendar(year, month, 8, Color.parseColor("#329632"), "3").toString(),
+            getSchemeCalendar(year, month, 8, Color.parseColor("#329632"), "3")
+
         )
         println(mapdata)
 
