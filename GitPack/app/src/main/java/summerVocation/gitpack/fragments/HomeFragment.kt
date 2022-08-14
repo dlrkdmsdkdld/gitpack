@@ -100,5 +100,8 @@ class HomeFragment : Fragment(){
         return calendar
     }
 
+    // ./gradlew :app:downloadApolloSchema --endpoint='https://apollo-fullstack-tutorial.herokuapp.com/graphql' --schema=app/src/main/graphql/com/example/rocketreserver/schema.graphqls
+    //gradlew :app:downloadApolloSchema --endpoint=https://api.github.com/graphql --header="Authorization: bearer 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" --schema=app/src/main/graphql/com.exmaple.rocketreserver/schema.json
+    //gradlew :app:downloadApolloSchema --endpoint=https://apollo-fullstack-tutorial.herokuapp.com --schema=app/src/main/graphql/com/example/rocketreserver/schema.json
 
 }
