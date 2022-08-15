@@ -1,0 +1,9 @@
+query gettotalcontributioncount($login : String!) {
+    user(login: $login) {
+        contributionsCollection{
+            contributionCalendar {
+                totalContributions
+            }
+        }
+    }
+}

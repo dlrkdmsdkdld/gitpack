@@ -26,7 +26,7 @@ class CustomMonthView(context: Context) : MonthView(context){
 
     init {
         mCurrentDayPaint.isAntiAlias = true
-        mCurrentDayPaint.style = Paint.Style.FILL
+        mCurrentDayPaint.style = Paint.Style.STROKE
         mCurrentDayPaint.color = ContextCompat.getColor(context, R.color.purple_700)
         mPointPaint.isAntiAlias = true
         mPointPaint.style = Paint.Style.FILL
@@ -88,14 +88,14 @@ class CustomMonthView(context: Context) : MonthView(context){
      * @param hasScheme  is calendar has scheme?
      * @param isSelected is calendar selected?
      */
+
     override fun onDrawText(canvas: Canvas?, calendar: Calendar?, x: Int, y: Int, hasScheme: Boolean, isSelected: Boolean) {
         val cx = x + mItemWidth / 2
-//        println("$x,$y")
         calendar?.let {
             canvas?.let { cit ->
                 if (it.isCurrentDay) {
-                    val rectF = RectF(x.toFloat(), y.toFloat(), (x + mItemWidth).toFloat(), (y + mItemHeight).toFloat())
-                    cit.drawRoundRect(rectF, 16f, 16f, mCurrentDayPaint)
+//                    val rectF = RectF(x.toFloat(), y.toFloat(), (x + mItemWidth).toFloat(), (y + mItemHeight).toFloat())
+//                    cit.drawRoundRect(rectF, 16f, 16f, mCurrentDayPaint)
                     if (hasScheme) {
                         //  绘制当天的标记点
                         cit.drawCircle(

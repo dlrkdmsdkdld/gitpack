@@ -1,0 +1,15 @@
+query getcalendar($login : String!,$start : DateTime!,$end : DateTime!){
+    user(login: $login) {
+        contributionsCollection(from: $start, to: $end) {
+            contributionCalendar {
+                weeks {
+                    contributionDays {
+                        date
+                        contributionCount
+                    }
+                }
+
+            }
+        }
+    }
+}
