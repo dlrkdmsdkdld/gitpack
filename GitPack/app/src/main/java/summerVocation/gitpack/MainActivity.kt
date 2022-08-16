@@ -1,11 +1,13 @@
 package summerVocation.gitpack
 
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import summerVocation.gitpack.databinding.ActivityMainBinding
+import summerVocation.gitpack.service.checkTodayCommitService
 
 class MainActivity : AppCompatActivity() {
     lateinit var userI : String
@@ -62,6 +64,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        val intent = Intent(applicationContext,checkTodayCommitService::class.java)
+        startService(intent)
         println("파괴됨")
     }
 
