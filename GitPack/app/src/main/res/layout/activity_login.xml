@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:fontFamily="@font/appmainfont"
             android:textSize="40dp"
             android:text="Git  Pack"
             />
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="깃허브 아이디"
-            android:textStyle="bold"
+            android:fontFamily="@font/appmainfont"
             android:textSize="30dp"
             android:layout_marginLeft="30dp"
             />
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="자동 로그인"
-                android:textStyle="bold"
+                android:fontFamily="@font/appmainfont"
                 android:layout_marginLeft="30dp"
                 android:gravity="center"
                 />
@@ -83,6 +83,7 @@
                 android:layout_width="75dp"
                 android:background="@drawable/shape_circle_button"
                 android:layout_height="75dp"
+                android:fontFamily="@font/appmainfont"
                 android:text="login"/>
         </LinearLayout>
 

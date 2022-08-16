@@ -29,7 +29,7 @@ fun apolloClient(context: Context): ApolloClient {
 private class AuthorizationInterceptor(val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer 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" )
+            .addHeader("Authorization", "Bearer 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" )
             .build()
 
         return chain.proceed(request)

@@ -38,7 +38,7 @@ class HomeFragment : Fragment(){
         }
         val curYear=binding.cvCalendar.getCurYear().toString()
         binding.tvYear.setText(binding.cvCalendar.getCurYear().toString())
-        binding.tvLunar.setText("  "+binding.cvCalendar.getCurMonth().toString())
+        binding.tvLunar.setText("  "+curmonthParse)
 
         lifecycleScope.launchWhenResumed { //여기서 totalcontributiondate 받아옴
             val response =apolloClient(requireContext()).query(GettotalcontributioncountQuery(userId)).execute()
