@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "826729619828",
+    "project_id": "gitpack-27224",
+    "storage_bucket": "gitpack-27224.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826729619828:android:3ebfdaa53116203be1cc21",
+        "android_client_info": {
+          "package_name": "summerVocation.gitpack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826729619828-vg8pv37pogqkg7vv3o23v1e5i20rcahs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "summerVocation.gitpack",
+            "certificate_hash": "bacba9ad0065525b6925652b442c203f5cb85721"
+          }
+        },
+        {
+          "client_id": "826729619828-ad4897auc9tk0dlmksoni318rk0qleoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-lVjNacpAA12XYn-kgj3T2hrtsiEElhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826729619828-ad4897auc9tk0dlmksoni318rk0qleoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

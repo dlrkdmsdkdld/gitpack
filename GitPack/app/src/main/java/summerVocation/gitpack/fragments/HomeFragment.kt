@@ -43,7 +43,7 @@ class HomeFragment : Fragment(){
         lifecycleScope.launchWhenResumed { //여기서 totalcontributiondate 받아옴
             val response =apolloClient(requireContext()).query(GettotalcontributioncountQuery(userId)).execute()
             println(userId)
-            binding.totalcommitText.setText("totalCommit: "+response?.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions)
+            binding.totalcommitText.setText(response?.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions.toString())
             println(response?.data?.user?.contributionsCollection?.contributionCalendar?.totalContributions)
 
         }
@@ -65,6 +65,7 @@ class HomeFragment : Fragment(){
             println(response.data?.user?.contributionsCollection?.contributionCalendar?.weeks)
             var tmp=response.data?.user?.contributionsCollection?.contributionCalendar?.weeks
             var first = tmp?.get(0)
+
             println(tmp)
 //            var firstdata = first?.contributionDays
             if (tmp!!.isNotEmpty()) {
@@ -76,9 +77,15 @@ class HomeFragment : Fragment(){
                     }
                 }
             }
+            println("_________________")
+            println(countlist.count())
+            if(countlist[countlist.count()-1]==0){
+                binding.todaycommit.setText("오늘 아직 커밋을 하지 않았습니다 ㅠ")
+            }else{
+                binding.todaycommit.setText("오늘 커밋을 했네요!")
+            }
             println(datelist)
             println(countlist)
-            println(1)
             initData(binding.cvCalendar.getCurYear(),binding.cvCalendar.curMonth,countlist,datelist)
 
         }

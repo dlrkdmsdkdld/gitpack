@@ -5,7 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
     id("com.apollographql.apollo3").version("3.5.0")
-
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -65,5 +65,6 @@ dependencies {
     //짱깨캘린더뷰
     implementation 'com.haibin:calendarview:3.7.1'
     implementation("com.apollographql.apollo3:apollo-runtime:3.5.0")
-
+    //파이어베이스
+    implementation platform('com.google.firebase:firebase-bom:30.3.2')
 }
