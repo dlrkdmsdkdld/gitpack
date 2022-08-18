@@ -26,6 +26,12 @@ android {
         release {
            // minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String","GITHUB_GLIENT_ID",'"e6dc5ec5fcc61814e76a"')
+            buildConfigField("String","GITHUB_CLIENT_SECRET",'"37293d8034ea0e16161e1d76d9cda441a981b3f6"')
+        }
+        debug{
+            buildConfigField("String","GITHUB_GLIENT_ID",'"e6dc5ec5fcc61814e76a"')
+            buildConfigField("String","GITHUB_CLIENT_SECRET",'"37293d8034ea0e16161e1d76d9cda441a981b3f6"')
         }
     }
     compileOptions {
@@ -54,17 +60,29 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
+    implementation 'androidx.databinding:databinding-runtime:7.2.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation('androidx.navigation:navigation-fragment-ktx:2.5.1')
     implementation('androidx.navigation:navigation-ui-ktx:2.5.1')
-    //양키 캘린더뷰
+    //미국 캘린더뷰
    // implementation ('com.github.kizitonwose:CalendarView:1.0.4')
-    //짱깨캘린더뷰
+    //중국캘린더뷰
     implementation 'com.haibin:calendarview:3.7.1'
+    //apollo
     implementation("com.apollographql.apollo3:apollo-runtime:3.5.0")
     //파이어베이스
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
+    //retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //깃허브 토큰받아오기
+    implementation 'com.github.rahul:github-oauth:1.0'
+    //리싸이클러뷰
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+
 }

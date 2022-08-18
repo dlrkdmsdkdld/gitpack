@@ -2,13 +2,14 @@ package summerVocation.gitpack
 
 import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.rahul.githuboauth.GithubAuthenticator
 import summerVocation.gitpack.databinding.ActivityLoginBinding
 
 class loginActivity : AppCompatActivity() {
+    lateinit var githubAuthenticator:GithubAuthenticator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,6 +30,31 @@ class loginActivity : AppCompatActivity() {
             println("---")
         }
 
+//        if(MyApplication.prefs.getString("token","").equals("")){
+//            val githubAuthenticatorBuilder  = GithubAuthenticator.builder(this)
+//                .clientId(BuildConfig.GITHUB_GLIENT_ID)
+//                .clientSecret(BuildConfig.GITHUB_CLIENT_SECRET)
+//                .scopeList(arrayListOf("gist", "repo"))
+//                .debug(true)
+//                .onSuccess(object : SuccessCallback {
+//                    override fun onSuccess(result: String) {
+//                        runOnUiThread {
+//                            MyApplication.prefs.setString("token",result)
+//                            println("------------")
+//                            println(result)
+//                        }
+//                    }
+//                })
+//                .onError(object : ErrorCallback {
+//                    override fun onError(error: Exception) {
+//                        runOnUiThread {
+//                            Toast.makeText(this@loginActivity,error.message, Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                })
+//            githubAuthenticatorBuilder.debug(true)
+//            githubAuthenticator = githubAuthenticatorBuilder.build()
+//        }
 
         binding.loginButton.setOnClickListener {
             val intent =Intent(this,MainActivity::class.java)
@@ -50,7 +76,10 @@ class loginActivity : AppCompatActivity() {
                     println("db 인서트")
                     db.insert("tb_login",null,contentValue)
                     db.close()
+
                 }
+
+
 
                 finish()
 

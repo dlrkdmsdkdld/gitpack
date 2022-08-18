@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         mbinding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(mbinding.root)
 
         var userId = intent.getStringExtra("loginId")
+
         /// 로그인한 아이디 확인 자동로그인시 if 문 사용 -> 반대 else문
         if (userId == null){
             try{
@@ -34,9 +34,11 @@ class MainActivity : AppCompatActivity() {
             }
         }else{
            //binding.mainText.setText(userId)
+
         }
         userI=userId!!
         println(userId)
+
 
 
 
