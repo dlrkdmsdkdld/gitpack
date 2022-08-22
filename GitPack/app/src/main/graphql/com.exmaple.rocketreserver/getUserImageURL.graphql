@@ -1,0 +1,5 @@
+query getUserImageURL($login : String!){
+    user(login: $login) {
+        avatarUrl
+    }
+}

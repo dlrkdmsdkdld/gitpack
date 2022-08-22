@@ -1,0 +1,16 @@
+query getlanguages($login : String!){
+    user(login: $login) {
+        repositories(first: 100) {
+            nodes {
+                primaryLanguage {
+                    name
+                }
+                languages(first: 4) {
+                    nodes {
+                        name
+                    }
+                }
+            }
+        }
+    }
+}

@@ -147,6 +147,7 @@ class HomeFragment : Fragment(){
     override fun onDestroyView() { // 프래그먼트 삭제될때 자동으로실행
         mBinding=null
         super.onDestroyView()
+        println("홈프래그먼트 삭제")
     }
 
     override fun onAttach(context: Context) {
