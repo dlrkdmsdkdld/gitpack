@@ -3,17 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center"
     android:id="@+id/userFragment"
+    android:orientation="vertical"
     tools:context="summerVocation.gitpack.fragments.userFragment">
     <TextView
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:text="유저 프래그먼트"/>
-    <Button
-        android:layout_width="wrap_content"
+        android:text="유저 정보"
+        android:fontFamily="@font/appmainfont"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_marginTop="20sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnlogout"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_margin="30dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:id="@+id/userImage"
+            android:src="@mipmap/ic_launcher"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/userIdTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유저 아이디"
+                android:fontFamily="@font/appmainfont"
+                android:textSize="20sp"
+                android:layout_marginTop="20sp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnlogout"
+                android:text="로그 아웃"
+                android:fontFamily="@font/appmainfont"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
         />
+    <TextView
+        android:layout_gravity="center"
+        android:fontFamily="@font/appmainfont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="레포지토리 별 사용언어 현황"
+        android:textSize="20sp"
+        android:layout_marginTop="10sp"
+        />
+    <LinearLayout
+        android:layout_marginTop="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.faskn.lib.ClickablePieChart
+            android:id="@+id/chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:layout_marginLeft="20dp"
+            android:id="@+id/legendLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5" />
+
+    </LinearLayout>
 </LinearLayout>

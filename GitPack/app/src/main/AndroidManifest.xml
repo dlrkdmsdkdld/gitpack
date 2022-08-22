@@ -17,9 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitPack"
         tools:targetApi="31">
-
-
-
+        <activity
+            android:name=".DetailRoadmap"
+            android:exported="false" />
         <activity
             android:name=".loginActivity"
             android:exported="true">
@@ -31,9 +31,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"></activity>
 
-        </activity>
         <service
             android:name=".service.checkTodayCommitService"
             android:enabled="true"
