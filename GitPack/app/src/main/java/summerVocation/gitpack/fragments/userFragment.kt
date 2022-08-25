@@ -51,11 +51,10 @@ class userFragment : Fragment() {
         binding.btnlogout.setOnClickListener {
             // sqlite 테이블 없애는 함수
             val sqlDrop : String = "DROP TABLE if exists tb_login"
-            val db: SQLiteDatabase = SQLiteDBHelper(requireContext()).writableDatabase
+            val db: SQLiteDatabase = SQLiteDBHelper(requireContext() as MainActivity).writableDatabase
             db.execSQL(sqlDrop)
             onDestroy()
             ActivityCompat.finishAffinity(requireActivity());
-//            (activity as MainActivity).onDe
 
 
         }

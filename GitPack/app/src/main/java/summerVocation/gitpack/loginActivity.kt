@@ -76,6 +76,7 @@ class loginActivity : AppCompatActivity() {
                     println("db 인서트")
                     db.insert("tb_login",null,contentValue)
                     db.close()
+                    
 
                 }
 

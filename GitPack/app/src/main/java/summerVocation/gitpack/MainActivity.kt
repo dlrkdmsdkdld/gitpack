@@ -4,19 +4,24 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import summerVocation.gitpack.databinding.ActivityMainBinding
 import summerVocation.gitpack.service.checkTodayCommitService
+import summerVocation.gitpack.viewmodel.calaenderViewModel
 
 class MainActivity : AppCompatActivity() {
     lateinit var userI : String
     private lateinit var mbinding : ActivityMainBinding
 
+    lateinit var mycalaenderViewModel: calaenderViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mbinding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(mbinding.root)
+        mycalaenderViewModel=ViewModelProvider(this).get(calaenderViewModel::class.java)
+
 
         var userId = intent.getStringExtra("loginId")
 
@@ -37,6 +42,10 @@ class MainActivity : AppCompatActivity() {
 
         }
         userI=userId!!
+        mycalaenderViewModel.updateId(userId)
+
+
+
         println(userId)
 
 
@@ -52,13 +61,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(mbinding.myBottomNav , navController)
 
 
-
-//// sqlite 테이블 없애는 함수
-//        mbinding.dr.setOnClickListener {
-//            val sqlDrop : String = "DROP TABLE if exists tb_login"
-//            val db: SQLiteDatabase = SQLiteDBHelper(this).writableDatabase
-//            db.execSQL(sqlDrop)
-//        }
 
 
 
