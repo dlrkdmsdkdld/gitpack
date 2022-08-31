@@ -6,6 +6,7 @@ import com.apollographql.apollo3.network.okHttpClient
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import summerVocation.gitpack.BuildConfig
 
 private var instance: ApolloClient? = null
 
@@ -29,7 +30,7 @@ fun apolloClient(context: Context): ApolloClient {
 private class AuthorizationInterceptor(val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer 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" )
+            .addHeader("Authorization", "Bearer ${BuildConfig.GIT_TOKEN}" )
 //            .addHeader("Authorization", "Bearer "+ MyApplication.prefs.getString("token","") )
             .build()
 
