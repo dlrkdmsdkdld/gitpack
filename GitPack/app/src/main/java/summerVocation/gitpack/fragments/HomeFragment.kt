@@ -17,6 +17,7 @@ import summerVocation.gitpack.viewmodel.calaenderViewModel
 
 class HomeFragment : Fragment(){
 
+
     private val mycalaenderViewModel by activityViewModels<calaenderViewModel>()
     private var mBinding : FragmentHomeBinding? =null
     lateinit var userId:String
@@ -50,9 +51,14 @@ class HomeFragment : Fragment(){
         mycalaenderViewModel.checknowday.observe(viewLifecycleOwner, Observer {
             mBinding!!.todaycommit.text=it
         })
-        mycalaenderViewModel.scheme.observe(viewLifecycleOwner, Observer {
+        mycalaenderViewModel.currentScheme.observe(viewLifecycleOwner, Observer {
             mBinding!!.cvCalendar.setSchemeDate(it)
+            println(it)
+
         })
+//        mycalaenderViewModel.scheme.observe(viewLifecycleOwner, Observer {
+//            mBinding!!.cvCalendar.setSchemeDate(it)
+//        })
         mycalaenderViewModel.updateMonth(binding.cvCalendar.curYear, binding.cvCalendar.curMonth,binding.cvCalendar.curDay,1)
         binding.cvCalendar.setOnMonthChangeListener { year, month ->
             binding.tvYear.setText(year.toString())

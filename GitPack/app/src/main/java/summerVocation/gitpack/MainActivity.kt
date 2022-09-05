@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mbinding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(mbinding.root)
-        mycalaenderViewModel=ViewModelProvider(this).get(calaenderViewModel::class.java)
+        mycalaenderViewModel= ViewModelProvider(this).get(calaenderViewModel::class.java)
 
 
         var userId = intent.getStringExtra("loginId")

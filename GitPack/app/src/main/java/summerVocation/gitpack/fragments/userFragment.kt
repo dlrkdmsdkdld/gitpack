@@ -1,10 +1,14 @@
 package summerVocation.gitpack.fragments
 
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -12,8 +16,11 @@ import com.bumptech.glide.Glide
 import com.example.rocketreserver.GetUserImageURLQuery
 import com.example.rocketreserver.GetlanguagesQuery
 import com.example.rocketreserver.apolloClient
-import com.faskn.lib.PieChart
-import com.faskn.lib.Slice
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.android.synthetic.main.fragment_user.*
 import summerVocation.gitpack.MainActivity
 import summerVocation.gitpack.R
 import summerVocation.gitpack.SQLiteDBHelper
@@ -22,6 +29,7 @@ import summerVocation.gitpack.databinding.FragmentUserBinding
 
 class userFragment : Fragment() {
     private var mBinding : FragmentUserBinding? =null
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,10 +38,6 @@ class userFragment : Fragment() {
         val binding = FragmentUserBinding.inflate(inflater,container,false)
         val userId : String=(activity as MainActivity).getuserId() //메인액티비티에서 유저 아이디 가져오기
         binding.userIdTextview.text = userId
-
-
-//        chart.setPieChart(pieChart)
-//        chart.showLegend(legendLayout)
 
         lifecycleScope.launchWhenResumed {
             val response =
@@ -61,7 +65,6 @@ class userFragment : Fragment() {
         lifecycleScope.launchWhenResumed { //여기서 totalcontributiondate 받아옴
             val response =
                 apolloClient(requireContext()).query(GetlanguagesQuery(userId)).execute()
-            println("____-----------")
             val tmp = response?.data?.user?.repositories?.nodes
             var languageData : MutableMap<String,Int> = mutableMapOf()
             var k = mutableListOf<String>()
@@ -71,7 +74,6 @@ class userFragment : Fragment() {
                 println(tmp!![i]!!.primaryLanguage?.name)
                 k.add(tmp!![i]!!.primaryLanguage?.name.toString())
             }
-//            println(response?.data?.user?.repositories)
             println(k)
             var setL = k.toSet()
             println(setL)
@@ -82,18 +84,53 @@ class userFragment : Fragment() {
             for(i in k){
                 languageData[i] = languageData[i]!!+1
             }
-            println(languageData)
-            val pieChart = PieChart(
-                slices = provideSlices(languageData), clickListener = null, sliceStartPoint = 0f, sliceWidth = 80f
-            ).build()
-            binding.chart.setPieChart(pieChart)
-            binding.chart.showLegend(binding.legendLayout)
+            val pieData=parseMapToPie(languageData)
+            makePieChart(pieData)
+
+
         }
-
-
 
         mBinding =binding
         return mBinding?.root
+    }
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun parseMapToPie(languageData : MutableMap<String,Int>):PieData{
+        val yValues: ArrayList<PieEntry> = ArrayList()
+        languageData.forEach { languagename, count ->
+            yValues.add(PieEntry(count.toFloat(),languagename))
+        }
+        Log.d("now","yYale : $yValues")
+        val dataSet: PieDataSet = PieDataSet(yValues, "")
+        with(dataSet) {
+            sliceSpace = 3f
+            selectionShift = 5f
+            setColors(*ColorTemplate.LIBERTY_COLORS)
+        }
+        val pieData: PieData = PieData(dataSet)
+        with(pieData) {
+            setValueTextSize(10f)
+            setValueTextColor(Color.BLACK)
+
+        }
+        return pieData
+    }
+    fun makePieChart(pieData: PieData){
+        user_piechart.apply {
+            setUsePercentValues(true)
+            description.isEnabled = false
+            setExtraOffsets(5f, 10f, 5f, 5f)//부모 레이아웃을 고려해서 margin 설정
+            isDrawHoleEnabled = true
+            setHoleColor(Color.WHITE)
+            centerText="language"
+            setCenterTextSize(20f)
+            setCenterTextColor(Color.LTGRAY)
+//            transparentCircleRadius = 61f // 각 파이당 안에 흰 공백 설정
+            data = pieData//데이터를 파이에 넣음
+            setEntryLabelColor(Color.BLACK)//각 파이들마다 이름 색깔
+            invalidate()
+        }
+
+
     }
 
     override fun onDestroyView() { // 프래그먼트 삭제될때 자동으로실행
@@ -101,38 +138,7 @@ class userFragment : Fragment() {
         super.onDestroyView()
 
     }
-    private fun provideSlices(tmp:MutableMap<String,Int>): ArrayList<Slice> {
-        var result= ArrayList<Slice>()
-        var colorset = ArrayList<Int>()
-        colorset.add(R.color.olive)
-        colorset.add(R.color.red)
-        colorset.add(R.color.gray)
-        colorset.add(R.color.margenta)
-        colorset.add(R.color.yellow)
-        colorset.add(R.color.teal_700)
-        colorset.add(R.color.teal_200)
-        colorset.add(R.color.blue)
-        colorset.add(R.color.darkGold)
-        colorset.add(R.color.darkblue)
-        colorset.add(R.color.orange)
 
-        var z =0
-        for (i in tmp){
-            if(z<colorset.count()){
-                var a =Slice(i.value.toFloat(),colorset[z],i.key)
-                result.add(a)
-                z+=1
-            }
-            else{
-                z=0
-                var a =Slice(i.value.toFloat(),colorset[z],i.key)
-                result.add(a)
-            }
-
-
-        }
-        return result
-    }
 
     override fun onDestroy() {
         super.onDestroy()

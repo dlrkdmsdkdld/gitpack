@@ -12,6 +12,9 @@ import com.haibin.calendarview.Calendar
 import kotlinx.coroutines.launch
 
 class calaenderViewModel( application: Application) : AndroidViewModel(application){
+    companion object{
+        const val TAG= "카카오 auth"
+    }
     private val context = getApplication<Application>().applicationContext
     private var userId = MutableLiveData<String>()
     val currentUserId: LiveData<String>
@@ -21,6 +24,20 @@ class calaenderViewModel( application: Application) : AndroidViewModel(applicati
     }
     var checknowday = MutableLiveData<String>()
     var scheme = MutableLiveData<MutableMap<String,Calendar>>()
+//    init {
+//        val now =System.currentTimeMillis()//현재시간받아오기
+//        val date = Date(now)
+//        var pattern: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+//        val getnowTime : String=pattern.format(date)//원하는 패턴으로 date객체 문자열화하는 함수
+//        val Year = getnowTime.substring(0 until 4).toInt()
+//        val month = getnowTime.substring(5 until 7).toInt()
+//        val day = getnowTime.substring(8 until 10).toInt()
+//        Log.i(TAG,Year.toString()+" " +month.toString()+" "+day.toString())
+//        updateMonth(Year,month,day)
+//
+//    }
+    val currentScheme: MutableLiveData<MutableMap<String, Calendar>>
+        get() = scheme
     fun updateMonth(Year:Int, Month:Int,Day:Int=31,check:Int=0){
         val userIdvalue = userId.value
         var curmonthParse:String=Month.toString()
@@ -133,4 +150,8 @@ class calaenderViewModel( application: Application) : AndroidViewModel(applicati
         return calendar
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        println("뷰모델 삭제됨")
+    }
 }
