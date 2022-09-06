@@ -1,7 +1,9 @@
 package summerVocation.gitpack.fragments
 
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.*
 import android.widget.EditText
@@ -88,9 +90,15 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
                     }
                 }
                 this.setOnQueryTextListener(this@roadMapFragment)
-
+                mySearchViewEditText =this.findViewById(androidx.appcompat.R.id.search_src_text)
+                mySearchViewEditText.apply {
+                    this.filters=arrayOf(InputFilter.LengthFilter(15))
+                    this.setTextColor(Color.WHITE)
+                    this.setHintTextColor(Color.WHITE)
+                }
             }
         }
+
     }
 
 
