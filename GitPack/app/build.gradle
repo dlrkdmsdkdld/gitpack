@@ -78,9 +78,7 @@ dependencies {
     implementation("com.apollographql.apollo3:apollo-runtime:3.5.0")
     //파이어베이스
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
-    //retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
     //깃허브 토큰받아오기
     implementation 'com.github.rahul:github-oauth:1.0'
     //리싸이클러뷰
@@ -102,6 +100,11 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     //MPAndroid chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
+//레트로핏
+    def retrofit_version = "2.8.1"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    //레트로핏 로깅 인터셉터
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 
 }

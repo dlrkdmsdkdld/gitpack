@@ -4,30 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import summerVocation.gitpack.R
+import summerVocation.gitpack.model.SearchUser
 
-class RecyclerAdapter(recyclerViewInterfacea: RecyclerViewInterface): RecyclerView.Adapter<ViewHolder>() {
-    private var modellist = ArrayList<RecyclerModel>()
-    private var recyclerViewInterface: RecyclerViewInterface? = null
-
-    init {
-        this.recyclerViewInterface = recyclerViewInterfacea
-    }
+class RecyclerAdapter: RecyclerView.Adapter<ViewHolder>() {
+    private var modellist = ArrayList<SearchUser>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         println("onCreateViewHolder")
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_recycler_item, parent, false), recyclerViewInterface!!
-        )
+        val photoItemViewHolder = ViewHolder(LayoutInflater.from(parent.context)
+            .inflate(R.layout.layout_recycler_item,parent,false))
+        return  photoItemViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         println("바인드됨")
-        holder.bind(this.modellist[position])
+        holder.bindWithView(this.modellist[position])
 
     }
 
-    fun submitList(modelListp: ArrayList<RecyclerModel>) {
+    fun submitList(modelListp: ArrayList<SearchUser>) {
         this.modellist = modelListp
         println(this.modellist)
     }
