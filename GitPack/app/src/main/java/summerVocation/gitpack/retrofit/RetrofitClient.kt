@@ -14,8 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import summerVocation.gitpack.BuildConfig
 import summerVocation.gitpack.MyApplication
 import summerVocation.gitpack.utils.Constant.TAG
-import summerVocation.gitpack.utils.isJsonArray
-import summerVocation.gitpack.utils.isJsonObject
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
@@ -27,13 +25,14 @@ object RetrofitClient {
         //okhttp 인스턴스 생성
         val client = OkHttpClient.Builder()
         //로그를 찍기 위해 로깅 인터셉터 설정
+
         val loggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger{
             override fun log(message: String) {
                 Log.d(TAG,"RetrofitClient - log() called / message: $message")
                 when{
-                    message.isJsonObject() -> Log.d(TAG, JSONObject(message).toString(4))
+                 //   message.isJsonObject() -> Log.d(TAG, JSONObject(message).toString(4))
 
-                    message.isJsonArray() -> Log.d(TAG, JSONObject(message).toString(4))
+                   // message.isJsonArray() -> Log.d(TAG, JSONObject(message).toString(4))
                     else ->{
                         try {
                             Log.d(TAG, JSONObject(message).toString(4))

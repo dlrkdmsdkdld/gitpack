@@ -16,4 +16,7 @@
     <color name="darkblue">#00008b</color>
     <color name="darkGold">#B8860B</color>
     <color name="orange">#FFA500</color>
+    <color name="colorLightGray">#BABABA</color>
+    <color name="colorGray">#7B7B7B</color>
+
 </resources>

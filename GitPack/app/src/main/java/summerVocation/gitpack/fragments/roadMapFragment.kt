@@ -1,12 +1,15 @@
 package summerVocation.gitpack.fragments
 
+
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_roadmap.*
+import summerVocation.gitpack.R
 import summerVocation.gitpack.RecylerView.RecyclerAdapter
 import summerVocation.gitpack.databinding.FragmentRoadmapBinding
 import summerVocation.gitpack.model.SearchUser
@@ -14,33 +17,90 @@ import summerVocation.gitpack.retrofit.RetrofitManager
 import summerVocation.gitpack.utils.Constant.TAG
 import summerVocation.gitpack.utils.RESPONSE_STATUS
 
-class roadMapFragment : Fragment() {
+
+class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
     private lateinit var myRecyclerAdapter: RecyclerAdapter // 유저데이터 들어갈 리싸이클러뷰 어뎁터
     private var mBinding : FragmentRoadmapBinding? =null
     private var SearchUserArrayList = ArrayList<SearchUser>()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    //서치뷰
+    private lateinit var mySearchView: SearchView
+    private lateinit var mySearchViewEditText:EditText
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentRoadmapBinding.inflate(inflater,container,false)
-//        SearchUserAPICall("Yunjung324")
         mBinding =binding
+        Log.d(TAG,"onCreateView")
+        val myToolbar = binding.topAppBar
+        (context as AppCompatActivity).setSupportActionBar(myToolbar)
+        setHasOptionsMenu(true)
+
+        // (getActivity() as AppCompatActivity?)!!.setSupportActionBar(topAppBar)
         this.myRecyclerAdapter = RecyclerAdapter()
-        RetrofitManager.instance.searchUser(username = "Yunjung324", completion = { responseStatus, arrayList ->
+        getFollower()
+
+        return mBinding?.root
+    }
+    private fun getFollower(){
+        RetrofitManager.instance.searchFollower( completion = { responseStatus, arrayList ->
+            when(responseStatus){
+                RESPONSE_STATUS.OKAY ->{
+                    Log.d(TAG,"api 호출 성공 $arrayList")
+                    if(arrayList!=null){
+                        arrayList.forEach {
+                            SearchFlowerAPICall(it)
+                        }
+
+                    }
+                    roadmaprecylerveiw.apply {
+                        adapter=myRecyclerAdapter
+                    }
+                }
+                RESPONSE_STATUS.FAIL -> {
+                    Log.d(TAG, "api 호출 실패패 : $arrayList ")
+                }
+                RESPONSE_STATUS.NO_CONTENT -> {
+                }
+            }
+        })
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.top_app_bar_menu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+        Log.d(TAG,"onCreateOptionsMenu")
+
+        this.mySearchView = menu?.findItem(R.id.search_menu_item)?.actionView as SearchView
+        this.mySearchView.apply {
+            this.queryHint = "유저 아이디를 입력해주세요"
+            this.setOnQueryTextFocusChangeListener { view, hasExpanded ->
+                when(hasExpanded){
+                    true -> {
+                        Log.d(TAG,"서치뷰 열림")
+                        linear_searchhistory_view.visibility=View.VISIBLE
+
+                    }
+                    false ->{
+                        Log.d(TAG,"서치뷰 닫힘")
+                        linear_searchhistory_view.visibility=View.INVISIBLE
+
+                    }
+                }
+                this.setOnQueryTextListener(this@roadMapFragment)
+
+            }
+        }
+    }
+
+
+    private fun SearchFlowerAPICall(query:String){
+        RetrofitManager.instance.searchUser(username = query, completion = { responseStatus, arrayList ->
             when(responseStatus){
                 RESPONSE_STATUS.OKAY ->{
                     Log.d(TAG,"api 호출 성공 $arrayList")
                     if(arrayList!=null){
                         this.SearchUserArrayList.clear()
-                        this.SearchUserArrayList=arrayList
-                        Log.d(TAG,"어레이리스트 연결 $SearchUserArrayList")
-
-                        this.myRecyclerAdapter.submitList(this.SearchUserArrayList)
-                        // this.myRecyclerAdapter.notifyDataSetChanged()
-                        roadmaprecylerveiw.apply {
-                            adapter=myRecyclerAdapter
-                        }
+                        this.myRecyclerAdapter.addList(arrayList)
+                        this.myRecyclerAdapter.notifyDataSetChanged()
                     }
 
                 }
@@ -51,51 +111,17 @@ class roadMapFragment : Fragment() {
                 }
             }
         })
-        return mBinding?.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        var modelList = ArrayList<RecyclerModel>()
-//        val myModel = RecyclerModel(name = "frontend", profileImage = R.drawable.icons8frontend2 )
-//        modelList.add(myModel)
-//        val myModel2 = RecyclerModel(name = "Backend", profileImage =R.drawable.icons8backenddevelopment64 )
-//        modelList.add(myModel2)
-//        val myModel3 = RecyclerModel(name = "Android", profileImage =R.drawable.icons8android30 )
-//        modelList.add(myModel3)
-//        val myModel4 = RecyclerModel(name = "DBA", profileImage =R.drawable.icons8database50 )
-//        modelList.add(myModel4)
-//        val myModel5 = RecyclerModel(name = "DevOps", profileImage =R.drawable.icons8devops30 )
-//        modelList.add(myModel5)
-//        val myModel6 = RecyclerModel(name = "BlockChain", profileImage =R.drawable.icons8blockchainnewlogo64 )
-//        modelList.add(myModel6)
-//        println(modelList)
-//        //어뎁터인스턴스 생성 및 적용
-//        myRecyclerAdapter= RecyclerAdapter(this)
-//        myRecyclerAdapter.submitList(modelList)
-//
-//        //리싸이클러뷰 설정
-//        roadmaprecylerveiw.apply {
-//            adapter=myRecyclerAdapter
-//        }
-
-//        roadmaprecylerveiw.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        Log.d(TAG,"myRecyclerAdapter 연결 $myRecyclerAdapter")
-        Log.d(TAG,"myRecyclerAdapter 연결 $myRecyclerAdapter")
-        Log.d(TAG,"myRecyclerAdapter 연결 $myRecyclerAdapter")
-        //roadmaprecylerveiw.adapter=this.myRecyclerAdapter
-
-
-    }
-
     private fun SearchUserAPICall(query:String){
-        RetrofitManager.instance.searchUser(username = "Yunjung324", completion = { responseStatus, arrayList ->
+        RetrofitManager.instance.searchUser(username = "query", completion = { responseStatus, arrayList ->
             when(responseStatus){
                 RESPONSE_STATUS.OKAY ->{
                     Log.d(TAG,"api 호출 성공 $arrayList")
                     if(arrayList!=null){
+                        val tmp = ArrayList<SearchUser>()
+                        tmp.add(arrayList)
                         this.SearchUserArrayList.clear()
-                        this.SearchUserArrayList=arrayList
+                        this.SearchUserArrayList=tmp
                         this.myRecyclerAdapter.submitList(this.SearchUserArrayList)
                         this.myRecyclerAdapter.notifyDataSetChanged()
                     }
@@ -116,6 +142,15 @@ class roadMapFragment : Fragment() {
         super.onDestroyView()
     }
 
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        Log.d(TAG,"onQueryTextSubmit :  $p0")
+        return true
+    }
+
+    override fun onQueryTextChange(p0: String?): Boolean {
+        Log.d(TAG,"onQueryTextChange :  $p0")
+        return true
+    }
 
 
 }

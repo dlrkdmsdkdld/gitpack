@@ -26,7 +26,10 @@ class RecyclerAdapter: RecyclerView.Adapter<ViewHolder>() {
         this.modellist = modelListp
         println(this.modellist)
     }
-
+    fun addList(modelListp: SearchUser) {
+        this.modellist.add(modelListp)
+        println(this.modellist)
+    }
     override fun getItemCount(): Int {
         return this.modellist.size
     }
