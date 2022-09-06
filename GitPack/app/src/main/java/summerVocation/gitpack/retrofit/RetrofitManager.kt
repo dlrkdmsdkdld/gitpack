@@ -55,10 +55,11 @@ class RetrofitManager {
         })
 
     }
-    fun searchFollower(  completion:(RESPONSE_STATUS,ArrayList<String>?) -> Unit){
-            val call = iRetrofit?.searchFollower().let {
-                it
-            }?: return
+    fun searchFollower(  username:String?,completion:(RESPONSE_STATUS,ArrayList<String>?) -> Unit){
+        val term = username ?:""
+        val call = iRetrofit?.searchFollower(username = term).let {
+            it
+        }?: return
 
             call.enqueue(object : retrofit2.Callback<JsonElement>{
                 override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {

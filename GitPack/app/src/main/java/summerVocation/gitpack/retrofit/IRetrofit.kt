@@ -11,6 +11,6 @@ interface IRetrofit {
     @GET("users/{username}")
     fun searchUser(@Path("username") username:String ): Call<JsonElement>
 
-    @GET("user/followers")
-    fun searchFollower() : Call<JsonElement>
+    @GET("users/{username}/followers")
+    fun searchFollower(@Path("username")username:String) : Call<JsonElement>
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_roadmap.*
+import summerVocation.gitpack.MainActivity
 import summerVocation.gitpack.R
 import summerVocation.gitpack.RecylerView.RecyclerAdapter
 import summerVocation.gitpack.databinding.FragmentRoadmapBinding
@@ -34,15 +35,16 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
         val myToolbar = binding.topAppBar
         (context as AppCompatActivity).setSupportActionBar(myToolbar)
         setHasOptionsMenu(true)
+        val userId=(activity as MainActivity).getuserId() //메인액티비티에서 유저 아이디 가져오기
 
         // (getActivity() as AppCompatActivity?)!!.setSupportActionBar(topAppBar)
         this.myRecyclerAdapter = RecyclerAdapter()
-        getFollower()
+        getFollower(userId)
 
         return mBinding?.root
     }
-    private fun getFollower(){
-        RetrofitManager.instance.searchFollower( completion = { responseStatus, arrayList ->
+    private fun getFollower(userId:String){
+        RetrofitManager.instance.searchFollower( username = userId, completion = { responseStatus, arrayList ->
             when(responseStatus){
                 RESPONSE_STATUS.OKAY ->{
                     Log.d(TAG,"api 호출 성공 $arrayList")
