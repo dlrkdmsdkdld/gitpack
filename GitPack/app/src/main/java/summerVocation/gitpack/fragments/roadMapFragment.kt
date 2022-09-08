@@ -10,25 +10,35 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_roadmap.*
 import summerVocation.gitpack.MainActivity
 import summerVocation.gitpack.R
+import summerVocation.gitpack.RecylerView.ISearchHistoryRecylcerview
 import summerVocation.gitpack.RecylerView.RecyclerAdapter
+import summerVocation.gitpack.RecylerView.searchHistoryAdapter
 import summerVocation.gitpack.databinding.FragmentRoadmapBinding
+import summerVocation.gitpack.model.SearchHistory
 import summerVocation.gitpack.model.SearchUser
 import summerVocation.gitpack.retrofit.RetrofitManager
 import summerVocation.gitpack.utils.Constant.TAG
+import summerVocation.gitpack.utils.PreferenceUtil
 import summerVocation.gitpack.utils.RESPONSE_STATUS
+import summerVocation.gitpack.utils.toSimpleString
+import java.util.*
 
 
-class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
+class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener,ISearchHistoryRecylcerview{
     private lateinit var myRecyclerAdapter: RecyclerAdapter // 유저데이터 들어갈 리싸이클러뷰 어뎁터
     private var mBinding : FragmentRoadmapBinding? =null
+    //유저 검색 기록 배열
     private var SearchUserArrayList = ArrayList<SearchUser>()
     //서치뷰
     private lateinit var mySearchView: SearchView
     private lateinit var mySearchViewEditText:EditText
-
+    //유저 검색 보여주는 리싸이클러뷰
+    private var SearchHistoryArrayList = ArrayList<SearchHistory>()
+    private lateinit var myHistoryRecyclerAdapter: searchHistoryAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentRoadmapBinding.inflate(inflater,container,false)
@@ -42,8 +52,26 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
         // (getActivity() as AppCompatActivity?)!!.setSupportActionBar(topAppBar)
         this.myRecyclerAdapter = RecyclerAdapter()
         getFollower(userId)
-
+        //검색기록 가져오기
+        this.SearchHistoryArrayList=PreferenceUtil.getSearchHistoryList() as ArrayList<SearchHistory>
+        this.SearchHistoryArrayList.forEach {
+            Log.d(TAG,"저장된 검색기록 term : ${it.term}")
+        }
         return mBinding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        HistoryRecylcerwith(SearchHistoryArrayList)
+    }
+    private fun HistoryRecylcerwith(List:ArrayList<SearchHistory>){
+        this.myHistoryRecyclerAdapter = searchHistoryAdapter(this)
+        this.myHistoryRecyclerAdapter.submit(List)
+        val lm= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+        my_search_history_recycler_view.apply {
+            layoutManager=lm
+            adapter=myHistoryRecyclerAdapter
+        }
     }
     private fun getFollower(userId:String){
         RetrofitManager.instance.searchFollower( username = userId, completion = { responseStatus, arrayList ->
@@ -123,7 +151,7 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
         })
     }
     private fun SearchUserAPICall(query:String){
-        RetrofitManager.instance.searchUser(username = "query", completion = { responseStatus, arrayList ->
+        RetrofitManager.instance.searchUser(username = query, completion = { responseStatus, arrayList ->
             when(responseStatus){
                 RESPONSE_STATUS.OKAY ->{
                     Log.d(TAG,"api 호출 성공 $arrayList")
@@ -154,12 +182,44 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener{
 
     override fun onQueryTextSubmit(p0: String?): Boolean {
         Log.d(TAG,"onQueryTextSubmit :  $p0")
+        if (!p0.isNullOrEmpty()){
+            insertSearchUserHistory(p0)
+            this.SearchUserAPICall(p0)
+
+        }
+
+        this.mySearchView.setQuery("",false)
+        this.mySearchView.clearFocus()
+        this.topAppBar.collapseActionView()
         return true
     }
 
     override fun onQueryTextChange(p0: String?): Boolean {
         Log.d(TAG,"onQueryTextChange :  $p0")
         return true
+    }
+    private fun insertSearchUserHistory(query: String){
+        val indexListToRemove = ArrayList<Int>()
+        this.SearchHistoryArrayList.forEachIndexed { index, searchHistory ->
+            if(searchHistory.term == query){
+                indexListToRemove.add(index)
+            }
+        }
+        indexListToRemove.forEach {
+            this.SearchHistoryArrayList.removeAt(it)
+        }
+        val newHistory = SearchHistory(term = query, timeStamp = Date().toSimpleString())
+        this.SearchHistoryArrayList.add(newHistory)
+        PreferenceUtil.storeSearchHistoryList(SearchHistoryArrayList)
+        this.myHistoryRecyclerAdapter.notifyDataSetChanged()
+    }
+
+    override fun onSearchItemDeleteClicked(position: Int) {
+       Log.d(TAG,"삭제버튼 클릭")
+    }
+
+    override fun onSearchItemClicked(position: Int) {
+        Log.d(TAG,"아이템버튼 클릭")
     }
 
 

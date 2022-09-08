@@ -5,11 +5,12 @@
     <item
         android:id="@+id/homeFragment"
         android:title="홈"
-        android:icon="@drawable/ic_homeimage"/>
+        android:icon="@drawable/icons8calendar50"/>
     <item
         android:id="@+id/roadMapFragment"
-        android:title="로드맵"
-        android:icon="@drawable/ic_roadmap"
+        android:title="팔로워"
+        android:icon="@drawable/icons8friend1"
+
         />
     <item
         android:id="@+id/userFragment"

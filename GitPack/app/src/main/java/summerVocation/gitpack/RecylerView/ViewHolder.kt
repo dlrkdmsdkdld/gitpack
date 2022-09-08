@@ -16,7 +16,7 @@ class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
     private val card_follow_count = itemView.card_follow_count
     private val card_user_id = itemView.card_user_id
     private val card_last_commit_text = itemView.card_last_commit_text
-    private var recyclerViewInterface :RecyclerViewInterface?=null
+    private var recyclerViewInterface :ISearchHistoryRecylcerview?=null
 
     //데이터와 뷰를 바인드함
     fun bindWithView(model: SearchUser){
