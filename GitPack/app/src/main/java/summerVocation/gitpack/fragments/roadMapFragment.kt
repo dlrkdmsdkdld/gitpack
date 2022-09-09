@@ -28,7 +28,7 @@ import summerVocation.gitpack.utils.toSimpleString
 import java.util.*
 
 
-class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener,ISearchHistoryRecylcerview{
+class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener,ISearchHistoryRecylcerview,View.OnClickListener{
     private lateinit var myRecyclerAdapter: RecyclerAdapter // 유저데이터 들어갈 리싸이클러뷰 어뎁터
     private var mBinding : FragmentRoadmapBinding? =null
     //유저 검색 기록 배열
@@ -44,6 +44,7 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener,ISearchHistor
         val binding = FragmentRoadmapBinding.inflate(inflater,container,false)
         mBinding =binding
         Log.d(TAG,"onCreateView")
+        //툴바 적용
         val myToolbar = binding.topAppBar
         (context as AppCompatActivity).setSupportActionBar(myToolbar)
         setHasOptionsMenu(true)
@@ -63,6 +64,7 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener,ISearchHistor
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         HistoryRecylcerwith(SearchHistoryArrayList)
+        clear_search_history_buttton.setOnClickListener(this)
     }
     private fun HistoryRecylcerwith(List:ArrayList<SearchHistory>){
         this.myHistoryRecyclerAdapter = searchHistoryAdapter(this)
@@ -216,10 +218,30 @@ class roadMapFragment : Fragment() ,SearchView.OnQueryTextListener,ISearchHistor
 
     override fun onSearchItemDeleteClicked(position: Int) {
        Log.d(TAG,"삭제버튼 클릭")
+        this.SearchHistoryArrayList.removeAt(position)
+        PreferenceUtil.storeSearchHistoryList(this.SearchHistoryArrayList)
+        this.myHistoryRecyclerAdapter.notifyDataSetChanged()
+
     }
 
     override fun onSearchItemClicked(position: Int) {
         Log.d(TAG,"아이템버튼 클릭")
+        SearchUserAPICall(this.SearchHistoryArrayList[position].term)
+        linear_searchhistory_view.visibility=View.INVISIBLE
+
+    }
+
+    override fun onClick(p0: View?) {
+        Log.d(TAG,"클릭한것 : $p0")
+        when(p0){
+            clear_search_history_buttton ->{
+                Log.d(TAG,"검색기록 전체삭제")
+                PreferenceUtil.clearSearchHistoryList()
+                this.SearchHistoryArrayList.clear()
+                linear_searchhistory_view.visibility=View.INVISIBLE
+
+            }
+        }
     }
 
 
