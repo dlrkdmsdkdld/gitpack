@@ -9,6 +9,11 @@
 깃허브 비밀번호 필요없이 아이디만 입력하면 앱의 모든 기능을 사용할 수 있습니다.
 
 # 앱 화면 
+![image1](./image/login.PNG)
+![image2](./image/main.PNG)
+![image3](./image/follow.PNG)
+![image4](./image/user.PNG)
+![image5](./image/notification.PNG)
 
 # Build with
 + github GraphQL & REST API (retrofit2 , okhttp , apollo)
