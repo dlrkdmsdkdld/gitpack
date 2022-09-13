@@ -10,6 +10,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.rocketreserver.GetcalendarQuery
 import com.example.rocketreserver.apolloClient
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import summerVocation.gitpack.R
 import summerVocation.gitpack.SQLiteDBHelper
+import summerVocation.gitpack.utils.Constant.TAG
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,11 +34,17 @@ class checkTodayCommitService : Service() {
         super.onCreate()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG,"백그라운드 onDestroy  ")
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if(intent == null){
             return Service.START_STICKY
+            Log.d(TAG,"onStartCommand 다시 실행 ")
         }else {
-            println("서비스실행")
+            Log.d(TAG,"onStartCommand  실행 ")
             var userId: String? = null
             val db: SQLiteDatabase = SQLiteDBHelper(this).readableDatabase
             try{
@@ -58,7 +66,7 @@ class checkTodayCommitService : Service() {
                 var pattern: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 val getnowTime : String=pattern.format(date)//원하는 패턴으로 date객체 문자열화하는 함수
                 println(date)
-                if(date.hours==22 && date.minutes==0){
+                if(date.hours==12 && date.minutes==50){
                     var parseDate: String=getnowTime.substring(8 until 10)
                     var parseMonth: String=getnowTime.substring(5 until 7)
                     var parseYear: String=getnowTime.substring(0 until 4)

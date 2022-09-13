@@ -1,14 +1,19 @@
 package summerVocation.gitpack
 
+import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
+import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import summerVocation.gitpack.alarm.Alarmmanager
 import summerVocation.gitpack.databinding.ActivityMainBinding
-import summerVocation.gitpack.service.checkTodayCommitService
 import summerVocation.gitpack.viewmodel.calaenderViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +39,10 @@ class MainActivity : AppCompatActivity() {
                 userId= cursor.getString(0)
                 //binding.mainText.setText(userId)
             }
-            db.close()}catch (e: Exception){
+            db.close()
+
+
+            }catch (e: Exception){
 
             }
         }else{
@@ -44,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         userI=userId!!
         mycalaenderViewModel.updateId(userId)
 
+        Whitelist_check(this)
 
 
         println(userId)
@@ -72,9 +81,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        val intent = Intent(applicationContext,checkTodayCommitService::class.java)
-        startService(intent)
+        val alarm = Alarmmanager(this)
+        alarm.setAlarmManager()
+       // val intent = Intent(applicationContext,checkTodayCommitService::class.java)
+       // startService(intent)
         println("파괴됨")
+    }
+    fun Whitelist_check(context: Context){
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        var WhiteCheck = false;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            /**
+             * 등록이 되어있따면 TRUE
+             * 등록이 안되있다면 FALSE
+             */
+            WhiteCheck = powerManager.isIgnoringBatteryOptimizations(context.getPackageName())
+            if (!WhiteCheck){
+                Log.d("화이트리스트", "화이트리스트에 등록되지않았습니다.")
+                val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                intent.data = Uri.parse("package:" + context.getPackageName())
+                context.startActivity(intent)
+            }
+            else Log.d("화이트리스트","화이트리스트에 등록되어있습니다.");
+
+        }
     }
 
 }

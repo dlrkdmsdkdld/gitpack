@@ -12,3 +12,17 @@ enum class RESPONSE_STATUS{
     FAIL,
     NO_CONTENT
 }
+
+
+const val EVENING = 3000
+
+
+
+
+
+data class AlarmData(
+    val hour: Int,
+    val min: Int,
+    val title: Int,
+    val message: Int,
+)
