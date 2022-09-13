@@ -21,10 +21,7 @@ class HomeFragment : Fragment(){
     private val mycalaenderViewModel by activityViewModels<calaenderViewModel>()
     private var mBinding : FragmentHomeBinding? =null
     lateinit var userId:String
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater,container,false)
         userId=(activity as MainActivity).getuserId() //메인액티비티에서 유저 아이디 가져오기

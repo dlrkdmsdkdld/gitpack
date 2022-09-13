@@ -22,8 +22,8 @@ class Alarmmanager(private val context: Context) {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE,30)
+            set(Calendar.HOUR_OF_DAY, 22)
+            set(Calendar.MINUTE,0)
             set(Calendar.SECOND,0)
             //set(Calendar.SECOND,59)
            // set(Calendar.MINUTE, 18)
